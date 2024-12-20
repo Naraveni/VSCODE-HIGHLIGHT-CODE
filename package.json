@@ -1,0 +1,64 @@
+{
+  "name": "highlight-code",
+  "displayName": "Highlight Code",
+  "description": "Highlight Code For Presenting",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.96.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [{
+        "command": "extension.highlightLine",
+        "title": "Highlight Current Line"
+    },
+    {
+      "command": "extension.openColorPicker",
+      "title": "Open Color Picker"
+    }],
+    "keybindings": [
+      {
+        "key": "ctrl+shift+h",
+        "mac": "cmd+shift+h",
+        "command": "extension.highlightLine",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.openColorPicker",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m",
+        "when": "editorTextFocus"
+      }
+    ],
+      "contributes": {
+        "configuration": {
+          "type": "object",
+          "title": "Highlight Extension Settings",
+          "properties": {
+            "highlightExtension.highlightColor": {
+              "type": "string",
+              "default": "rgba(255,255,0,0.2)",
+              "description": "The color used to highlight code lines. Accepts any valid CSS color format."
+            }
+          }
+        }
+      }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.96.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "eslint": "^9.16.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
