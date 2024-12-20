@@ -7,29 +7,17 @@ const highlightKey = 'highlightedRanges';
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-  // Command to highlight the selected text
-  let highlightTextDisposable = vscode.commands.registerCommand('extension.highlightText', () => {
-    const editor = vscode.window.activeTextEditor;
+
+  // Listen for document opening
+  vscode.workspace.onDidOpenTextDocument(doc => {
+    console.log("onDidOpenTextDocument triggered for: " + doc.uri.toString());
+    const fileUri = doc.uri.toString();
+    const editor = vscode.window.visibleTextEditors.find(e => e.document.uri.toString() === fileUri);
     if (editor) {
-      const selectionRange = editor.selection; // Get the selected text range
-      const fileUri = editor.document.uri.toString();
-
-      if (!selectionRange.isEmpty) {
-        // const config = vscode.workspace.getConfiguration('highlightExtension');
-        const highlightColor = context.workspaceState.get('highlightColor', '#FFFF00')
-
-        // Highlight the selected text and store it
-        highlightSelection(editor, selectionRange, highlightColor);
-        updateHighlightData(context, fileUri, selectionRange, highlightColor);
-      } else {
-        vscode.window.showInformationMessage('No text selected to highlight!');
-      }
+      restoreHighlights(context, editor, fileUri);
     }
   });
 
-  let selectColorDisposable = vscode.commands.registerCommand('extension.selectHighlightColor', () => {
-    showColorPicker(context);
-  });
 
   // Listen for changes in active text editor
   vscode.window.onDidChangeActiveTextEditor(editor => {
@@ -46,22 +34,57 @@ function activate(context) {
     restoreHighlights(context, activeEditor, fileUri);
   }
 
+
+  // Registering highlight text command
+  let highlightTextDisposable = vscode.commands.registerCommand('extension.highlightText', () => {
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+      const selectionRange = editor.selection;
+      const fileUri = editor.document.uri.toString();
+
+      if (!selectionRange.isEmpty) {
+        let highlightColor = context.workspaceState.get('highlightColor', '#FFFF00');
+        if (highlightColor.startsWith('#')) {
+          // Convert hex to rgba with opacity
+          highlightColor = hexToRgb(highlightColor);
+        }
+
+        // Highlight the selected text and store it
+        highlightSelection(editor, selectionRange, highlightColor);
+        updateHighlightData(context, fileUri, selectionRange, highlightColor);
+      } else {
+        vscode.window.showInformationMessage('No text selected to highlight!');
+      }
+    }
+  });
+
+  // Registering color selection command
+  let selectColorDisposable = vscode.commands.registerCommand('extension.selectHighlightColor', () => {
+    showColorPicker(context);
+  });
+
   context.subscriptions.push(highlightTextDisposable, selectColorDisposable);
 }
 
-// Function to highlight a specific selection range with a given color
+// Function to convert hex to rgba
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, 0.7)`; // Set opacity to 70%
+}
+
+// Function to highlight selected text
 function highlightSelection(editor, range, color) {
   const decorationType = vscode.window.createTextEditorDecorationType({
     backgroundColor: color,
   });
-
   editor.setDecorations(decorationType, [range]);
 }
 
 // Update highlight data in workspace state
 function updateHighlightData(context, fileUri, range, color) {
   const highlights = context.workspaceState.get(highlightKey, {});
-
   if (!highlights[fileUri]) {
     highlights[fileUri] = [];
   }
@@ -90,7 +113,6 @@ function updateHighlightData(context, fileUri, range, color) {
 function restoreHighlights(context, editor, fileUri) {
   const highlights = context.workspaceState.get(highlightKey, {});
   const rangesToHighlight = highlights[fileUri] || [];
-
   rangesToHighlight.forEach(rangeData => {
     const range = new vscode.Range(
       new vscode.Position(rangeData.start.line, rangeData.start.character),
@@ -100,6 +122,7 @@ function restoreHighlights(context, editor, fileUri) {
   });
 }
 
+// Show color picker for highlight selection
 function showColorPicker(context) {
   const colorObject = {
     Yellow: '#FFFF00',
@@ -124,19 +147,16 @@ function showColorPicker(context) {
     Gold: '#FFD700'
   };
 
-  // Convert the color object to an array of items for the QuickPick
   const colorOptions = Object.keys(colorObject).map(colorName => ({
     label: colorName,
-    colorCode: colorObject[colorName] // Store the color code in the item
+    colorCode: colorObject[colorName]
   }));
 
-  // Display QuickPick with color names
   vscode.window.showQuickPick(colorOptions, {
     placeHolder: 'Select a highlight color',
-    canPickMany: false,  // Allow only one color to be picked
+    canPickMany: false,
   }).then(selectedColor => {
     if (selectedColor) {
-      // Store the selected color code in workspace state
       context.workspaceState.update('highlightColor', selectedColor.colorCode);
       vscode.window.showInformationMessage(`Highlight color set to ${selectedColor.colorCode}`);
     }
