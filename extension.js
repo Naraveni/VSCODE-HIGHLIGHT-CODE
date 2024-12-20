@@ -15,8 +15,8 @@ function activate(context) {
       const fileUri = editor.document.uri.toString();
 
       if (!selectionRange.isEmpty) {
-        const config = vscode.workspace.getConfiguration('highlightExtension');
-        const highlightColor = config.get('highlightColor', '#FFFF00'); // Default color
+        // const config = vscode.workspace.getConfiguration('highlightExtension');
+        const highlightColor = context.workspaceState.get('highlightColor', '#FFFF00')
 
         // Highlight the selected text and store it
         highlightSelection(editor, selectionRange, highlightColor);
@@ -25,6 +25,10 @@ function activate(context) {
         vscode.window.showInformationMessage('No text selected to highlight!');
       }
     }
+  });
+
+  let selectColorDisposable = vscode.commands.registerCommand('extension.selectHighlightColor', () => {
+    showColorPicker(context);
   });
 
   // Listen for changes in active text editor
@@ -42,14 +46,13 @@ function activate(context) {
     restoreHighlights(context, activeEditor, fileUri);
   }
 
-  context.subscriptions.push(highlightTextDisposable);
+  context.subscriptions.push(highlightTextDisposable, selectColorDisposable);
 }
 
 // Function to highlight a specific selection range with a given color
 function highlightSelection(editor, range, color) {
   const decorationType = vscode.window.createTextEditorDecorationType({
     backgroundColor: color,
-    fontWeight: 'bold'
   });
 
   editor.setDecorations(decorationType, [range]);
@@ -94,6 +97,49 @@ function restoreHighlights(context, editor, fileUri) {
       new vscode.Position(rangeData.end.line, rangeData.end.character)
     );
     highlightSelection(editor, range, rangeData.color);
+  });
+}
+
+function showColorPicker(context) {
+  const colorObject = {
+    Yellow: '#FFFF00',
+    Red: '#FF0000',
+    Green: '#00FF00',
+    Blue: '#0000FF',
+    Magenta: '#FF00FF',
+    Cyan: '#00FFFF',
+    Orange: '#FFA500',
+    Purple: '#800080',
+    Gray: '#808080',
+    'Dark Green': '#008000',
+    Maroon: '#800000',
+    Olive: '#808000',
+    'Steel Blue': '#4682B4',
+    Chocolate: '#D2691E',
+    Teal: '#5F9EA0',
+    Lime: '#7FFF00',
+    Crimson: '#DC143C',
+    'Dark Orange': '#FF8C00',
+    'Dark Orchid': '#9932CC',
+    Gold: '#FFD700'
+  };
+
+  // Convert the color object to an array of items for the QuickPick
+  const colorOptions = Object.keys(colorObject).map(colorName => ({
+    label: colorName,
+    colorCode: colorObject[colorName] // Store the color code in the item
+  }));
+
+  // Display QuickPick with color names
+  vscode.window.showQuickPick(colorOptions, {
+    placeHolder: 'Select a highlight color',
+    canPickMany: false,  // Allow only one color to be picked
+  }).then(selectedColor => {
+    if (selectedColor) {
+      // Store the selected color code in workspace state
+      context.workspaceState.update('highlightColor', selectedColor.colorCode);
+      vscode.window.showInformationMessage(`Highlight color set to ${selectedColor.colorCode}`);
+    }
   });
 }
 

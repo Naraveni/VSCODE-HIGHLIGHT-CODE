@@ -17,7 +17,7 @@
         "title": "Highlight Current Line"
     },
     {
-      "command": "extension.openColorPicker",
+      "command": "extension.selectHighlightColor",
       "title": "Open Color Picker"
     }],
     "keybindings": [
@@ -28,7 +28,7 @@
         "when": "editorTextFocus"
       },
       {
-        "command": "extension.openColorPicker",
+        "command": "extension.selectHighlightColor",
         "key": "ctrl+shift+m",
         "mac": "cmd+shift+m",
         "when": "editorTextFocus"
