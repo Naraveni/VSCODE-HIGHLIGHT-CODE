@@ -13,7 +13,7 @@
   "main": "./extension.js",
   "contributes": {
     "commands": [{
-        "command": "extension.highlightLine",
+        "command": "extension.highlightText",
         "title": "Highlight Current Line"
     },
     {
@@ -24,7 +24,7 @@
       {
         "key": "ctrl+shift+h",
         "mac": "cmd+shift+h",
-        "command": "extension.highlightLine",
+        "command": "extension.highlightText",
         "when": "editorTextFocus"
       },
       {

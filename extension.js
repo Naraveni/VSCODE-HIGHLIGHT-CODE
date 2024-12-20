@@ -1,41 +1,100 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+// Key to store highlights in workspaceState
+const highlightKey = 'highlightedRanges';
 
 /**
  * @param {vscode.ExtensionContext} context
  */
-
-
 function activate(context) {
-  let highlightLineDisposable = vscode.commands.registerCommand('extension.highlightLine', () => {
+  // Command to highlight the selected text
+  let highlightTextDisposable = vscode.commands.registerCommand('extension.highlightText', () => {
     const editor = vscode.window.activeTextEditor;
     if (editor) {
-      const line = editor.selection.active.line; // Get the current line number
-      highlightLine(editor, line);
+      const selectionRange = editor.selection; // Get the selected text range
+      const fileUri = editor.document.uri.toString();
+
+      if (!selectionRange.isEmpty) {
+        const config = vscode.workspace.getConfiguration('highlightExtension');
+        const highlightColor = config.get('highlightColor', '#FFFF00'); // Default color
+
+        // Highlight the selected text and store it
+        highlightSelection(editor, selectionRange, highlightColor);
+        updateHighlightData(context, fileUri, selectionRange, highlightColor);
+      } else {
+        vscode.window.showInformationMessage('No text selected to highlight!');
+      }
     }
   });
 
-  // Add the disposables to the context
-  context.subscriptions.push(highlightLineDisposable);
+  // Listen for changes in active text editor
+  vscode.window.onDidChangeActiveTextEditor(editor => {
+    if (editor) {
+      const fileUri = editor.document.uri.toString();
+      restoreHighlights(context, editor, fileUri);
+    }
+  });
+
+  // Restore highlights for the currently active editor (on activation)
+  const activeEditor = vscode.window.activeTextEditor;
+  if (activeEditor) {
+    const fileUri = activeEditor.document.uri.toString();
+    restoreHighlights(context, activeEditor, fileUri);
+  }
+
+  context.subscriptions.push(highlightTextDisposable);
 }
 
-function highlightLine(editor, line) {
-  const config = vscode.workspace.getConfiguration('highlightExtension');
-  let highlightColor = config.get('highlightColor', '#FFFF00');
+// Function to highlight a specific selection range with a given color
+function highlightSelection(editor, range, color) {
   const decorationType = vscode.window.createTextEditorDecorationType({
-    backgroundColor: highlightColor, // Light yellow background
+    backgroundColor: color,
     fontWeight: 'bold'
   });
 
-  const lineRange = editor.document.lineAt(line).range;
-  editor.setDecorations(decorationType, [lineRange]);
+  editor.setDecorations(decorationType, [range]);
+}
 
-  // Optionally, store the decoration type to dispose of it later
-  // context.subscriptions.push(decorationType);
+// Update highlight data in workspace state
+function updateHighlightData(context, fileUri, range, color) {
+  const highlights = context.workspaceState.get(highlightKey, {});
+
+  if (!highlights[fileUri]) {
+    highlights[fileUri] = [];
+  }
+
+  const rangeObject = {
+    start: { line: range.start.line, character: range.start.character },
+    end: { line: range.end.line, character: range.end.character },
+    color: color // Store color for the range
+  };
+
+  // Avoid duplicate highlights
+  if (!highlights[fileUri].some(existingRange =>
+    existingRange.start.line === rangeObject.start.line &&
+    existingRange.start.character === rangeObject.start.character &&
+    existingRange.end.line === rangeObject.end.line &&
+    existingRange.end.character === rangeObject.end.character &&
+    existingRange.color === rangeObject.color
+  )) {
+    highlights[fileUri].push(rangeObject);
+  }
+
+  context.workspaceState.update(highlightKey, highlights);
+}
+
+// Restore highlights for a given editor and file
+function restoreHighlights(context, editor, fileUri) {
+  const highlights = context.workspaceState.get(highlightKey, {});
+  const rangesToHighlight = highlights[fileUri] || [];
+
+  rangesToHighlight.forEach(rangeData => {
+    const range = new vscode.Range(
+      new vscode.Position(rangeData.start.line, rangeData.start.character),
+      new vscode.Position(rangeData.end.line, rangeData.end.character)
+    );
+    highlightSelection(editor, range, rangeData.color);
+  });
 }
 
 function deactivate() {}
@@ -44,4 +103,3 @@ module.exports = {
   activate,
   deactivate
 };
-
