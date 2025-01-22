@@ -1,65 +1,83 @@
-# highlight-code README
+# HIGHLIGHT CODE IN VSCODE EDITOR WITH COLORS
 
-This is the README for your extension "highlight-code". After writing up a brief description, we recommend including the following sections.
+This VSCODE extension enables to highlight the code with different colors.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+This extension provides functionality to highlight text with customizable colors in VS Code. It also allows you to manage your highlights effectively across the workspace. Below are the key features and commands included:
 
-For example if there is an image subfolder under your extension project workspace:
+#### Highlight Selected Text
+Easily highlight any selected text with your chosen color. The highlight remains persistent even when you reopen the file.
 
-\!\[feature X\]\(images/feature-x.png\)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+#### Choose a Highlight Color
+Use a color picker to select your preferred highlight color from a wide range of options.
 
-## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+#### Remove All Highlights Across the Workspace
+Remove all highlights from every file in the current workspace with a single command.
+
+
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+This extension provides the following commands, which can be accessed via their respective shortcuts or through the Command Palette:
 
-For example:
 
-This extension contributes the following settings:
+### Commands and Shortcuts
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+This extension provides the following commands, accessible via shortcuts or the Command Palette:
 
-## Known Issues
+| **Command**                          | **Shortcut (Mac)**    | **Shortcut (Windows/Linux)** | **Description**                                                      |
+|--------------------------------------|-----------------------|------------------------------|----------------------------------------------------------------------|
+| `extension.highlightText`            | `Cmd+Shift+H`         | `Ctrl+Shift+H`               | Highlights the selected text with the chosen color.                  |
+| `extension.selectHighlightColor`     | `Cmd+Shift+M`         | `Ctrl+Shift+M`               | Opens a color picker to select the highlight color.                  |
+| `extension.clearAllHighlightsWorkspace` | `Cmd+Shift+X`      | `Ctrl+Shift+X`               | Removes all highlights across the entire workspace.                  |
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
 
-## Release Notes
+### Extension Settings
 
-Users appreciate release notes as you update your extension.
+This extension contributes the following settings to your VS Code configuration:
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+| **Setting**                    | **Type**   | **Default**  | **Description**                                                                 |
+|--------------------------------|------------|--------------|---------------------------------------------------------------------------------|
+| `highlightText.enable`         | `boolean`  | `true`       | Enable or disable the text highlighting functionality of this extension.        |
+| `highlightText.defaultColor`   | `string`   | `#FFFF00`    | Specify the default highlight color in hexadecimal format (e.g., `#FF0000` for red). |
+| `highlightText.opacity`        | `number`   | `0.7`        | Set the opacity for highlights (range: 0 to 1).                                 |
 
 ---
 
-## Working with Markdown
+### How to Update Settings
 
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+To modify these settings:
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
+1. Open your settings file:
+   - Navigate to **File > Preferences > Settings**.
+   - Or use the shortcut: **Cmd+,** (Mac) / **Ctrl+,** (Windows/Linux).
+   
+2. Search for the desired setting (e.g., `highlightText.defaultColor`).
 
-## For more information
+3. Update its value based on your preferences.
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+For example, to change the default highlight color to red, update the setting:
+
+```json
+"highlightText.defaultColor": "#FF0000"
+```
+
+
+
+
+## Release Notes
+
+Includes Only Highlighting code, Color Selection & Clearing All The Highlighted Code
+
+### 1.0.0
+
+Base Extension
+
+### 1.0.1 (Not Yet Released)
+Working on Undo and Redo Operations.
+
 
 **Enjoy!**
