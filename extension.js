@@ -18,7 +18,6 @@ function activate(context) {
     }
   });
 
-
   // Listen for changes in active text editor
   vscode.window.onDidChangeActiveTextEditor(editor => {
     if (editor) {
@@ -33,7 +32,6 @@ function activate(context) {
     const fileUri = activeEditor.document.uri.toString();
     restoreHighlights(context, activeEditor, fileUri);
   }
-
 
   // Registering highlight text command
   let highlightTextDisposable = vscode.commands.registerCommand('extension.highlightText', () => {
@@ -63,7 +61,17 @@ function activate(context) {
     showColorPicker(context);
   });
 
-  context.subscriptions.push(highlightTextDisposable, selectColorDisposable);
+  // Registering the command to clear all highlights across the entire workspace
+  let clearAllHighlightsWorkspaceDisposable = vscode.commands.registerCommand('extension.clearAllHighlightsWorkspace', () => {
+    clearAllHighlightsForWorkspace(context);
+  });
+
+  // Registering the command to remove all highlight data (details) across the workspace
+  context.subscriptions.push(
+    highlightTextDisposable,
+    selectColorDisposable,
+    clearAllHighlightsWorkspaceDisposable
+  );
 }
 
 // Function to convert hex to rgba
@@ -120,6 +128,14 @@ function restoreHighlights(context, editor, fileUri) {
     );
     highlightSelection(editor, range, rangeData.color);
   });
+}
+
+// Function to clear all highlights (decorations) across the entire workspace
+function clearAllHighlightsForWorkspace(context) {
+  // Clear all highlight data from workspace state
+  context.workspaceState.update(highlightKey, {});
+
+  vscode.window.showInformationMessage('All highlights cleared across the workspace.');
 }
 
 // Show color picker for highlight selection

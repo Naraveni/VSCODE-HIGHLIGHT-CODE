@@ -21,12 +21,22 @@
     {
       "command": "extension.selectHighlightColor",
       "title": "Open Color Picker"
+    },
+    {
+      "command": "extension.clearAllHighlights",
+      "title": "Clear All Highlights"
     }],
     "keybindings": [
       {
         "key": "ctrl+shift+h",
         "mac": "cmd+shift+h",
         "command": "extension.highlightText",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.clearAllHighlightsWorkspace",
+        "key": "ctrl+shift+x",
+        "mac": "cmd+shift+x",
         "when": "editorTextFocus"
       },
       {
