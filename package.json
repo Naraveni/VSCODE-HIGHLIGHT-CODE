@@ -2,7 +2,13 @@
   "name": "highlight-code",
   "displayName": "Highlight Code",
   "description": "Highlight Code For Presenting",
+  "publisher": "Harshabana",
+  "icon": "icon.png",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Naraveni/VSCODE-HIGHLIGHT-CODE"
+  },
   "engines": {
     "vscode": "^1.96.0"
   },
@@ -25,6 +31,10 @@
     {
       "command": "extension.clearAllHighlights",
       "title": "Clear All Highlights"
+    },
+    {
+      "command": "extension.clearHighlightForSelectedRange",
+      "title": "Clear The Selected Highlight"
     }],
     "keybindings": [
       {
@@ -43,6 +53,12 @@
         "command": "extension.selectHighlightColor",
         "key": "ctrl+shift+m",
         "mac": "cmd+shift+m",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.clearHighlightForSelectedRange",
+        "key": "ctrl+shift+z",
+        "mac": "cmd+shift+z",
         "when": "editorTextFocus"
       }
     ],
