@@ -13,6 +13,10 @@ Easily highlight any selected text with your chosen color. The highlight remains
 #### Choose a Highlight Color
 Use a color picker to select your preferred highlight color from a wide range of options.
 
+#### Remove Individual Highlight
+Select The Highlighted Code to remove any already applied highlight
+
+
 
 #### Remove All Highlights Across the Workspace
 Remove all highlights from every file in the current workspace with a single command.
@@ -33,6 +37,7 @@ This extension provides the following commands, accessible via shortcuts or the 
 | `extension.highlightText`            | `Cmd+Shift+H`         | `Ctrl+Shift+H`               | Highlights the selected text with the chosen color.                  |
 | `extension.selectHighlightColor`     | `Cmd+Shift+M`         | `Ctrl+Shift+M`               | Opens a color picker to select the highlight color.                  |
 | `extension.clearAllHighlightsWorkspace` | `Cmd+Shift+X`      | `Ctrl+Shift+X`               | Removes all highlights across the entire workspace.                  |
+| `` | `select highligted text`      | `select highlighted text`               | Removes highlight for the selected text|
 
 
 ### Extension Settings
@@ -43,7 +48,9 @@ This extension contributes the following settings to your VS Code configuration:
 |--------------------------------|------------|--------------|---------------------------------------------------------------------------------|
 | `highlightText.enable`         | `boolean`  | `true`       | Enable or disable the text highlighting functionality of this extension.        |
 | `highlightText.defaultColor`   | `string`   | `#FFFF00`    | Specify the default highlight color in hexadecimal format (e.g., `#FF0000` for red). |
-| `highlightText.opacity`        | `number`   | `0.7`        | Set the opacity for highlights (range: 0 to 1).                                 |
+| `highlightText.fontStyle`        | `string`   | `italic`        |Sets the font to italic.                                 |
+| `highlightText.fontWeight`        | `string`   | `bold`        |Sets the font weight to bold.                                 |
+| `highlightText.color`        | `string`   | `black for light themes, white for dark themes`        |Sets the font color.                                 |
 
 ---
 
@@ -53,7 +60,7 @@ To modify these settings:
 
 1. Open your settings file:
    - Navigate to **File > Preferences > Settings**.
-   - Or use the shortcut: **Cmd+,** (Mac) / **Ctrl+,** (Windows/Linux).
+   - Or use the shortcut: **Cmd+shift+M,** (Mac) / **Ctrl+shift+M,** (Windows/Linux).
    
 2. Search for the desired setting (e.g., `highlightText.defaultColor`).
 
@@ -76,8 +83,12 @@ Includes Only Highlighting code, Color Selection & Clearing All The Highlighted 
 
 Base Extension
 
-### 1.0.1 (Not Yet Released)
-Working on Undo and Redo Operations.
+### 1.0.1 
+User Can Removed Individual Highlights
+Added Icon For Vs code
+
+### 1.0.2(Future Release)
+Integration With Find and Search
 
 
 **Enjoy!**
