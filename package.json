@@ -44,7 +44,7 @@
         "when": "editorTextFocus"
       },
       {
-        "command": "extension.clearAllHighlightsWorkspace",
+        "command": "extension.clearAllHighlights",
         "key": "ctrl+shift+x",
         "mac": "cmd+shift+x",
         "when": "editorTextFocus"
