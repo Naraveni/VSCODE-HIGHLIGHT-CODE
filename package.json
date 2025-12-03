@@ -4,7 +4,7 @@
   "description": "Highlight Code For Presenting",
   "publisher": "Harshabana",
   "icon": "icon.png",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/Naraveni/VSCODE-HIGHLIGHT-CODE"
@@ -20,22 +20,24 @@
   ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
+    "commands": [
+      {
         "command": "extension.highlightText",
         "title": "Highlight Current Line"
-    },
-    {
-      "command": "extension.selectHighlightColor",
-      "title": "Open Color Picker"
-    },
-    {
-      "command": "extension.clearAllHighlights",
-      "title": "Clear All Highlights"
-    },
-    {
-      "command": "extension.clearHighlightForSelectedRange",
-      "title": "Clear The Selected Highlight"
-    }],
+      },
+      {
+        "command": "extension.selectHighlightColor",
+        "title": "Open Color Picker"
+      },
+      {
+        "command": "extension.clearAllHighlights",
+        "title": "Clear All Highlights"
+      },
+      {
+        "command": "extension.clearHighlightForSelectedRange",
+        "title": "Clear The Selected Highlight"
+      }
+    ],
     "keybindings": [
       {
         "key": "ctrl+shift+h",
@@ -62,19 +64,19 @@
         "when": "editorTextFocus"
       }
     ],
-      "contributes": {
-        "configuration": {
-          "type": "object",
-          "title": "Highlight Extension Settings",
-          "properties": {
-            "highlightExtension.highlightColor": {
-              "type": "string",
-              "default": "rgba(255,255,0,0.2)",
-              "description": "The color used to highlight code lines. Accepts any valid CSS color format."
-            }
+    "contributes": {
+      "configuration": {
+        "type": "object",
+        "title": "Highlight Extension Settings",
+        "properties": {
+          "highlightExtension.highlightColor": {
+            "type": "string",
+            "default": "rgba(255,255,0,0.2)",
+            "description": "The color used to highlight code lines. Accepts any valid CSS color format."
           }
         }
       }
+    }
   },
   "scripts": {
     "lint": "eslint .",
