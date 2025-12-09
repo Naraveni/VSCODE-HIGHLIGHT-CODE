@@ -5,11 +5,10 @@ const { clearHighlightsInCurrentFile } = require("./helpers/clearHighlights");
 const { removeHighlightForRange } = require("./helpers/removeHighlight");
 const { highlightSelection } = require("./helpers/highlightSelection");
 const { restoreHighlights } = require("./helpers/restoreHighlight");
-const { rangesEqual, hexToRgb } = require("./helpers/handy_functions");
+const {  hexToRgb } = require("./helpers/handy_functions");
 const { showColorPicker } = require("./helpers/colorPicker");
 const { updateHighlightData } = require("./helpers/updateHighlightData");
 const vscode = require("vscode");
-const { highlightKey, decorationTypes } = require("./shared");
 
 function activate(context) {
   const activeEditor = vscode.window.activeTextEditor;

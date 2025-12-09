@@ -1,16 +1,12 @@
 const {highlightKey}  =  require('../shared')
-const { getRangeKey, rangesEqual } = require('./handy_functions')
-const vscode = require('vscode');
+const { rangesEqual } = require('./handy_functions')
 function updateHighlightData(context, fileUri, range, color) {
-  const editor = vscode.window.activeTextEditor;
-  const selectedText = editor.document.getText(range);
   const highlights = context.workspaceState.get(highlightKey, {});
   if (!highlights[fileUri]) {
     highlights[fileUri] = [];
   }
 
   const rangeObject = {
-    text: selectedText,
     start: { line: range.start.line, character: range.start.character },
     end: { line: range.end.line, character: range.end.character },
     color: color
