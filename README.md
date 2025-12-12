@@ -1,95 +1,88 @@
-# HIGHLIGHT CODE IN VSCODE EDITOR WITH COLORS
+# Highlight Code – VS Code Extension
 
-This VSCODE extension enables to highlight the code with different colors.
+![Highlight Code Logo](icon.png)
 
-## Features
-
-This extension provides functionality to highlight text with customizable colors in VS Code. It also allows you to manage your highlights effectively across the workspace. Below are the key features and commands included:
-
-#### Highlight Selected Text
-Easily highlight any selected text with your chosen color. The highlight remains persistent even when you reopen the file.
-
-
-#### Choose a Highlight Color
-Use a color picker to select your preferred highlight color from a wide range of options.
-
-#### Remove Individual Highlight
-Select The Highlighted Code to remove any already applied highlight
-
-
-
-#### Remove All Highlights Across the Workspace
-Remove all highlights from every file in the current workspace with a single command.
-
-
-
-## Extension Settings
-
-This extension provides the following commands, which can be accessed via their respective shortcuts or through the Command Palette:
-
-
-### Commands and Shortcuts
-
-This extension provides the following commands, accessible via shortcuts or the Command Palette:
-
-| **Command**                                   | **Shortcut (Mac)** | **Shortcut (Windows/Linux)** | **Description**                                      |
-|-----------------------------------------------|--------------------|------------------------------|------------------------------------------------------|
-| `extension.highlightText`                     | `Cmd+Shift+H`      | `Ctrl+Shift+H`               | Highlight the current selection using the set color. |
-| `extension.selectHighlightColor`              | `Cmd+Shift+M`      | `Ctrl+Shift+M`               | Open the color picker to choose a highlight color.   |
-| `extension.clearAllHiglightsInCurrentFile`    | `Cmd+Shift+L`      | `Ctrl+Shift+L`               | Clear every highlight within the active editor.      |
-| `extension.clearHighlightForSelectedRange`    | `Cmd+Shift+D`      | `Ctrl+Shift+D`               | Remove highlights covering the current selection.    |
-| `extension.clearAllHighlights`                | `Cmd+Shift+G`      | `Ctrl+Shift+G`               | Remove all highlights across the entire workspace.   |
-
-
-### Extension Settings
-
-This extension contributes the following settings to your VS Code configuration:
-
-| **Setting**                    | **Type**   | **Default**  | **Description**                                                                 |
-|--------------------------------|------------|--------------|---------------------------------------------------------------------------------|
-| `highlightText.enable`         | `boolean`  | `true`       | Enable or disable the text highlighting functionality of this extension.        |
-| `highlightText.defaultColor`   | `string`   | `#FFFF00`    | Specify the default highlight color in hexadecimal format (e.g., `#FF0000` for red). |
-| `highlightText.fontStyle`        | `string`   | `italic`        |Sets the font to italic.                                 |
-| `highlightText.fontWeight`        | `string`   | `bold`        |Sets the font weight to bold.                                 |
-| `highlightText.color`        | `string`   | `black for light themes, white for dark themes`        |Sets the font color.                                 |
+Highlight Code lets you quickly mark important sections of source files with vibrant colors so you can present, teach, or revisit critical snippets with ease. Highlights persist per file, can be restored after reloads, and are fully controllable through simple commands.
 
 ---
 
-### How to Update Settings
+## ✨ Features
 
-To modify these settings:
+- **Persistent color highlights** that survive editor reloads and file switches.
+- **Palette picker** with curated colors plus support for custom hex inputs.
+- **One-click cleanup** for either the active editor or the entire workspace.
+- **Selective removal** so you can clear just the highlight under your current selection.
 
-1. Open your settings file:
-   - Navigate to **File > Preferences > Settings**.
-   - Or use the shortcut: **Cmd+shift+M,** (Mac) / **Ctrl+shift+M,** (Windows/Linux).
-   
-2. Search for the desired setting (e.g., `highlightText.defaultColor`).
+---
 
-3. Update its value based on your preferences.
+## 📸 Preview
 
-For example, to change the default highlight color to red, update the setting:
+![Highlight Example](example.png)
+
+The screenshot above shows two highlighted sections in different colors. Use this view as a reference for how the extension renders decorations in VS Code.
+
+---
+
+## ⚡ Quick Start
+
+1. Install the extension (or clone this repo and run it via `F5` in VS Code).
+2. Select any text and press `Cmd/Ctrl+Shift+H` to highlight it.
+3. Change colors with `Cmd/Ctrl+Shift+M`.
+4. Manage highlights using the shortcuts below.
+
+---
+
+## ⌨️ Commands & Shortcuts
+
+| Command                                   | macOS Shortcut     | Windows/Linux Shortcut | Description                                                   |
+|-------------------------------------------|--------------------|------------------------|---------------------------------------------------------------|
+| `extension.highlightText`                 | `Cmd+Shift+H`      | `Ctrl+Shift+H`         | Highlight the current selection using the configured color.   |
+| `extension.selectHighlightColor`          | `Cmd+Shift+M`      | `Ctrl+Shift+M`         | Open the color picker to choose a highlight color.            |
+| `extension.clearAllHiglightsInCurrentFile`| `Cmd+Shift+L`      | `Ctrl+Shift+L`         | Remove every highlight in the active editor.                  |
+| `extension.clearHighlightForSelectedRange`| `Cmd+Shift+D`      | `Ctrl+Shift+D`         | Remove the highlight covering the current selection.          |
+| `extension.clearAllHighlights`            | `Cmd+Shift+G`      | `Ctrl+Shift+G`         | Clear all highlights across the entire workspace.             |
+
+All commands are also available through the Command Palette by searching for “Highlight”.
+
+---
+
+## 🎛️ Settings
+
+| Setting                                | Type     | Default             | Description                                                              |
+|----------------------------------------|----------|---------------------|--------------------------------------------------------------------------|
+| `highlightExtension.highlightColor`    | `string` | `rgba(255,255,0,0.2)` | Overrides the color applied when highlighting (supports CSS color values). |
+
+To change the color:
+
+1. Open **Settings** (`Cmd/Ctrl+,` or `File → Preferences → Settings`).
+2. Search for `Highlight Extension`.
+3. Adjust `highlightExtension.highlightColor`, e.g.:
 
 ```json
-"highlightText.defaultColor": "#FF0000"
+"highlightExtension.highlightColor": "rgba(255, 99, 71, 0.4)"
 ```
 
+---
 
+## 🧪 Development
 
+1. Clone the repo and run `npm install`.
+2. Press `F5` inside VS Code to launch the Extension Development Host.
+3. Use `npm run test` to run the extension tests.
 
-## Release Notes
+Contributions and suggestions are welcome! Please open issues for bugs or feature ideas.
 
-Includes Only Highlighting code, Color Selection & Clearing All The Highlighted Code
+---
 
-### 1.0.0
+## 🗒️ Release Notes
 
-Base Extension
+- **1.0.5** – Fixed highlight persistence, added selective removal command, refreshed shortcuts.
+- **1.0.4** – Added full-workspace clearing and quality-of-life improvements.
+- **1.0.3** – Color picker enhancements and stability fixes.
+- **1.0.2 (planned)** – Integration with “Find in Files”.
+- **1.0.1** – Added icon and individual highlight removal.
+- **1.0.0** – Initial release with highlighting and color selection.
 
-### 1.0.1 
-User Can Removed Individual Highlights
-Added Icon For Vs code
+---
 
-### 1.0.2(Future Release)
-Integration With Find and Search
-
-
-**Enjoy!**
+Enjoy highlighting! 🎨
