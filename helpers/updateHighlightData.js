@@ -11,10 +11,9 @@ function updateHighlightData(context, fileUri, range, color) {
     end: { line: range.end.line, character: range.end.character },
     color: color
   };
-
   if (!highlights[fileUri].some(existingRange =>
     rangesEqual(existingRange, rangeObject)
-  )) {
+  )) {    
     highlights[fileUri].push(rangeObject);
   }
 

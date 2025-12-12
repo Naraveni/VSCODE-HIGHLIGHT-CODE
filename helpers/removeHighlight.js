@@ -9,19 +9,18 @@ function removeHighlightForRange(context, editor, fileUri, range) {
     editor.setDecorations(decorationType, []);
     decorationTypes.delete(rangeKey);
   }
-  console.log(range);
-
   if (highlights[fileUri]) {
     highlights[fileUri] = highlights[fileUri].filter(existingRange => {
-      if(checkCompleteOverlap(existingRange, range)){
-        console.log("I was here")
-        const rangeKey = getRangeKey(existingRange)
+      if (checkCompleteOverlap(existingRange, range)) {
+        const rangeKey = getRangeKey(existingRange);
         const decorationType = decorationTypes.get(rangeKey);
-        editor.setDecorations(decorationType, []);
-        decorationTypes.delete(rangeKey);
-        return true;
+        if (decorationType) {
+          editor.setDecorations(decorationType, []);
+          decorationTypes.delete(rangeKey);
+        }
+        return false;
       }
-      return false;
+      return true;
     });
     context.workspaceState.update(highlightKey, highlights);
   }

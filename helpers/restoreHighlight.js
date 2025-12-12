@@ -7,8 +7,8 @@ const { highlightSelection } = require('./highlightSelection')
 function restoreHighlights(context, editor, fileUri) {
   
   const highlights = context.workspaceState.get(highlightKey, {});
+  
   const rangesToHighlight = highlights[fileUri] || [];
-
   
     
   rangesToHighlight.forEach(rangeData => {

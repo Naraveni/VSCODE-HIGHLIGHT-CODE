@@ -32,12 +32,13 @@ This extension provides the following commands, which can be accessed via their 
 
 This extension provides the following commands, accessible via shortcuts or the Command Palette:
 
-| **Command**                          | **Shortcut (Mac)**    | **Shortcut (Windows/Linux)** | **Description**                                                      |
-|--------------------------------------|-----------------------|------------------------------|----------------------------------------------------------------------|
-| `extension.highlightText`            | `Cmd+Shift+H`         | `Ctrl+Shift+H`               | Highlights the selected text with the chosen color.                  |
-| `extension.selectHighlightColor`     | `Cmd+Shift+M`         | `Ctrl+Shift+M`               | Opens a color picker to select the highlight color.                  |
-| `extension.clearAllHighlightsWorkspace` | `Cmd+Shift+X`      | `Ctrl+Shift+X`               | Removes all highlights across the entire workspace.                  |
-| `` | `select highligted text`      | `select highlighted text`               | Removes highlight for the selected text|
+| **Command**                                   | **Shortcut (Mac)** | **Shortcut (Windows/Linux)** | **Description**                                      |
+|-----------------------------------------------|--------------------|------------------------------|------------------------------------------------------|
+| `extension.highlightText`                     | `Cmd+Shift+H`      | `Ctrl+Shift+H`               | Highlight the current selection using the set color. |
+| `extension.selectHighlightColor`              | `Cmd+Shift+M`      | `Ctrl+Shift+M`               | Open the color picker to choose a highlight color.   |
+| `extension.clearAllHiglightsInCurrentFile`    | `Cmd+Shift+L`      | `Ctrl+Shift+L`               | Clear every highlight within the active editor.      |
+| `extension.clearHighlightForSelectedRange`    | `Cmd+Shift+D`      | `Ctrl+Shift+D`               | Remove highlights covering the current selection.    |
+| `extension.clearAllHighlights`                | `Cmd+Shift+G`      | `Ctrl+Shift+G`               | Remove all highlights across the entire workspace.   |
 
 
 ### Extension Settings

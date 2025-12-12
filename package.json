@@ -30,13 +30,15 @@
         "title": "Open Color Picker"
       },
       {
-        "command": "extension.clearAllHighlights",
+        "command": "extension.clearAllHiglightsInCurrentFile",
         "title": "Clear All Highlights"
       },
       {
         "command": "extension.clearHighlightForSelectedRange",
         "title": "Clear The Selected Highlight"
-      }
+      },
+      {"command":"extension.clearAllHighlights",
+      "title": "Clear All Highlights In The Workspace"}
     ],
     "keybindings": [
       {
@@ -46,9 +48,9 @@
         "when": "editorTextFocus"
       },
       {
-        "command": "extension.clearAllHighlights",
-        "key": "ctrl+shift+x",
-        "mac": "cmd+shift+x",
+        "command": "extension.clearAllHiglightsInCurrentFile",
+        "key": "ctrl+shift+l",
+        "mac": "cmd+shift+l",
         "when": "editorTextFocus"
       },
       {
@@ -59,8 +61,14 @@
       },
       {
         "command": "extension.clearHighlightForSelectedRange",
-        "key": "ctrl+shift+z",
-        "mac": "cmd+shift+z",
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.clearAllHighlights",
+        "key": "ctrl+shift+g",
+        "mac": "cmd+shift+g",
         "when": "editorTextFocus"
       }
     ],

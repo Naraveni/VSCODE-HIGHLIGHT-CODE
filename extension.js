@@ -8,6 +8,8 @@ const { restoreHighlights } = require("./helpers/restoreHighlight");
 const {  hexToRgb } = require("./helpers/handy_functions");
 const { showColorPicker } = require("./helpers/colorPicker");
 const { updateHighlightData } = require("./helpers/updateHighlightData");
+const { clearAllHighlights } = require("./helpers/clearAllHighlights")
+
 const vscode = require("vscode");
 
 function activate(context) {
@@ -16,14 +18,6 @@ function activate(context) {
     const fileUri = activeEditor.document.uri.toString();
     restoreHighlights(context, activeEditor, fileUri);
   }
-  vscode.window.onDidChangeTextEditorSelection((event) => {
-    const editor = event.textEditor;
-    const selectionRange = editor.selection;
-    if (!selectionRange.isEmpty) {
-      const fileUri = editor.document.uri.toString();
-      removeHighlightForRange(context, editor, fileUri, selectionRange);
-    }
-  });
   const docChangeDisposable = vscode.workspace.onDidChangeTextDocument(
     (event) => {
       handleDocumentChange(event, context);
@@ -48,9 +42,16 @@ function activate(context) {
   });
 
   let clearCurrentFileHighlightsDisposable = vscode.commands.registerCommand(
-    "extension.clearAllHighlights",
+    "extension.clearAllHiglightsInCurrentFile",
     () => {
       clearHighlightsInCurrentFile(context);
+    }
+  );
+
+  let clearAllHighlightsDisposable = vscode.commands.registerCommand(
+    "extension.clearAllHighlights",
+    () => {
+      clearAllHighlights(context);
     }
   );
 
@@ -74,11 +75,29 @@ function activate(context) {
           highlightSelection(editor, selectionRange, highlightColor);
           updateHighlightData(context, fileUri, selectionRange, highlightColor);
         } else {
-          vscode.window.showInformationMessage(
+          vscode.window.showWarningMessage(
             "No text selected to highlight!"
           );
         }
       }
+    }
+  );
+
+  let clearSelectedHighlightDisposable = vscode.commands.registerCommand(
+    "extension.clearHighlightForSelectedRange",
+    () => {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        vscode.window.showInformationMessage("No active editor to clear highlights from.");
+        return;
+      }
+      const selectionRange = editor.selection;
+      if (selectionRange.isEmpty) {
+        vscode.window.showInformationMessage("Select a highlighted range to clear.");
+        return;
+      }
+      const fileUri = editor.document.uri.toString();
+      removeHighlightForRange(context, editor, fileUri, selectionRange);
     }
   );
 
@@ -91,9 +110,11 @@ function activate(context) {
 
   context.subscriptions.push(
     highlightTextDisposable,
+    clearSelectedHighlightDisposable,
     selectColorDisposable,
     clearCurrentFileHighlightsDisposable,
-    docChangeDisposable
+    docChangeDisposable,
+    clearAllHighlightsDisposable
   );
 }
 
